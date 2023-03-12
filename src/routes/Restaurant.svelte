@@ -1,0 +1,28 @@
+<script>
+    // @ts-nocheck
+    import { onMount } from "svelte";
+
+    export let restaurant;
+    let lunchHtml;
+
+    onMount(async () => {
+        fetch(
+            `https://api.allorigins.win/get?url=${encodeURIComponent(
+                restaurant.url
+            )}`
+        )
+            .then((response) => {
+                if (response.ok) return response.json();
+                throw new Error("Network response was not ok.");
+            })
+            .then((data) => {
+                //console.log(data.contents);
+                const html = new DOMParser()
+                    .parseFromString(data.contents, "text/html");
+                lunchHtml = restaurant.getHtml(html);
+            });
+    });
+</script>
+
+<h2>{restaurant.name}</h2>
+<div>{@html lunchHtml}</div>
