@@ -83,6 +83,42 @@
                 
             },
         },
+        {
+            name: "Mia Maria",
+            url: "http://www.miamarias.nu/",
+            getHtml(doc) {
+                // Get the day name for today
+                
+                const dagensHtml = doc.querySelectorAll(`div.et_pb_toggle_content`);
+                console.log(dagensHtml);
+                try {
+                    
+                    
+                    return [...dagensHtml].map(node => node.textContent).join("<br>");
+                } catch {
+                    return "No lunch today!"
+                }
+                
+            },
+        },
+        // {
+        //     name: "Niagara",
+        //     url: "https://restaurangspill.se/",
+        //     getHtml(doc) {
+        //         // Get the day name for today
+        //         const dagensHtml = doc.querySelector(`#dagens`);
+
+        //         try {
+        //             const htmlOfToday = dagensHtml.childNodes[0].childNodes[0].childNodes[1]
+        //             .childNodes[0].childNodes[1].childNodes[1].textContent;
+                    
+        //             return htmlOfToday;
+        //         } catch {
+        //             return "No lunch today!"
+        //         }
+                
+        //     },
+        // },
     ];
 </script>
 
