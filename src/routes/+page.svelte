@@ -73,22 +73,51 @@
                 const dagensHtml = doc.querySelector(`#dagens`);
 
                 try {
-                    const htmlOfToday = dagensHtml.childNodes[0].childNodes[0].childNodes[1]
-                    .childNodes[0].childNodes[1].childNodes[1].textContent;
-                    
+                    const htmlOfToday =
+                        dagensHtml.childNodes[0].childNodes[0].childNodes[1]
+                            .childNodes[0].childNodes[1].childNodes[1]
+                            .textContent;
+
                     return htmlOfToday;
                 } catch {
-                    return "No lunch today!"
+                    return "No lunch today!";
                 }
-                
             },
         },
     ];
 </script>
 
-<div>
-    <h1>Äh, de e lunch</h1>
-    {#each restaurants as restaurant}
-        <Restaurant {restaurant} />
-    {/each}
+<svelte:head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap"
+        rel="stylesheet"
+    />
+</svelte:head>
+
+<div id="site">
+    <div class="container">
+        <h1 class="header">Äh, de e lunch</h1>
+        {#each restaurants as restaurant}
+            <Restaurant {restaurant} />
+        {/each}
+    </div>
 </div>
+
+<style>
+    #site {
+        margin: 0 20px;
+        font-family: "Cormorant Garamond", serif;
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        max-width: 1000px;
+    }
+
+    .header {
+        border-bottom: 2px solid black;
+    }
+</style>
