@@ -3,7 +3,7 @@
 
     import Restaurant from "./Restaurant.svelte";
 
-    const dayOfWeek = 2; //new Date().getDay();
+    const dayOfWeek = new Date().getDay();
 
     const dayNames = [
         "Sunday",
