@@ -115,6 +115,7 @@
 
     .container {
         max-width: 1000px;
+        flex-grow: 1;
     }
 
     .header {
