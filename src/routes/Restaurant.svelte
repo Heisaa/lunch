@@ -17,12 +17,18 @@
             })
             .then((data) => {
                 //console.log(data.contents);
-                const html = new DOMParser()
-                    .parseFromString(data.contents, "text/html");
+                const html = new DOMParser().parseFromString(
+                    data.contents,
+                    "text/html"
+                );
                 lunchHtml = restaurant.getHtml(html);
             });
     });
 </script>
 
 <h2>{restaurant.name}</h2>
-<div>{@html lunchHtml}</div>
+{#if lunchHtml}
+    <div>{@html lunchHtml}</div>
+{:else}
+    <div>Väntar på lunchen</div>
+{/if}
