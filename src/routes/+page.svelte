@@ -28,18 +28,22 @@
     const todayName = dayNames[dayOfWeek];
     const todayNameSwe = veckodagar[dayOfWeek];
 
+    const convertHtmlToDoc = (htmlString) => {
+        return new DOMParser().parseFromString(htmlString, "text/html");
+    };
+
     const restaurants = [
         {
             name: "P2",
             url: "https://www.restaurangp2.se/lunch",
-            getHtml(doc) {
-                // Get the day name for today
+            getHtml(data) {
+                const doc = new DOMParser().parseFromString(data, "text/html");
                 const htmlOfToday = doc.querySelector(
                     `#${todayName.toLowerCase()}`
                 );
 
                 if (htmlOfToday) {
-                    return htmlOfToday.innerHTML;
+                    return htmlOfToday.childNodes[3].innerHTML;
                 } else {
                     return "No lunch today!";
                 }
@@ -48,7 +52,8 @@
         {
             name: "Ubåtshallen",
             url: "https://www.ubatshallen.se/",
-            getHtml(doc) {
+            getHtml(data) {
+                const doc = new DOMParser().parseFromString(data, "text/html");
                 const container = Array.from(
                     doc.querySelectorAll(".wp-block-group__inner-container")
                 ).find(
@@ -67,18 +72,13 @@
         },
         {
             name: "Spill",
-            url: "https://restaurangspill.se/",
-            getHtml(doc) {
-                // Get the day name for today
-                const dagensHtml = doc.querySelector(`#dagens`);
+            url: "https://cms.restaurangspill.se/wp-json/wp/v2/pages/12",
+            getHtml(data) {
+                const dataAsJSON = JSON.parse(data);
+                console.log(dataAsJSON.acf);
 
                 try {
-                    const htmlOfToday =
-                        dagensHtml.childNodes[0].childNodes[0].childNodes[1]
-                            .childNodes[0].childNodes[1].childNodes[1]
-                            .textContent;
-
-                    return htmlOfToday;
+                    return dataAsJSON.acf.dagens_primar + "<br>" + dataAsJSON.acf.dagens_veg
                 } catch {
                     return "No lunch today!";
                 }
@@ -87,19 +87,19 @@
         {
             name: "Mia Maria",
             url: "http://www.miamarias.nu/",
-            getHtml(doc) {
-                // Get the day name for today
-                
-                const dagensHtml = doc.querySelectorAll(`div.et_pb_toggle_content`);
+            getHtml(data) {
+                const doc = new DOMParser().parseFromString(data, "text/html");
+                const dagensHtml = doc.querySelectorAll(
+                    `div.et_pb_toggle_content`
+                );
                 console.log(dagensHtml);
                 try {
-                    
-                    
-                    return [...dagensHtml].map(node => node.textContent).join("<br>");
+                    return [...dagensHtml]
+                        .map((node) => node.textContent)
+                        .join("<br><br>");
                 } catch {
-                    return "No lunch today!"
+                    return "No lunch today!";
                 }
-                
             },
         },
         // {
@@ -112,12 +112,12 @@
         //         try {
         //             const htmlOfToday = dagensHtml.childNodes[0].childNodes[0].childNodes[1]
         //             .childNodes[0].childNodes[1].childNodes[1].textContent;
-                    
+
         //             return htmlOfToday;
         //         } catch {
         //             return "No lunch today!"
         //         }
-                
+
         //     },
         // },
     ];

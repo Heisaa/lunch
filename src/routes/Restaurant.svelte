@@ -16,12 +16,7 @@
                 throw new Error("Network response was not ok.");
             })
             .then((data) => {
-                //console.log(data.contents);
-                const html = new DOMParser().parseFromString(
-                    data.contents,
-                    "text/html"
-                );
-                lunchHtml = restaurant.getHtml(html);
+                lunchHtml = restaurant.getHtml(data.contents);
             });
     });
 </script>
